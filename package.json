@@ -1,7 +1,7 @@
 {
-  "name": "theheavylance",
-  "version": "0.1.0",
-  "description": "server-side for a kingdom building game",
+  "name": "from_the_rubble",
+  "version": "0.1.1",
+  "description": "Multiplayer kingdom building sim",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
