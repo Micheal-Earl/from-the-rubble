@@ -1,0 +1,14 @@
+{
+  "name": "theheavylance",
+  "version": "1.0.0",
+  "description": "server-side for a kingdom building game",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Micheal Earl",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
