@@ -9,7 +9,7 @@ var server    = http.Server(app);
 var io        = socketIO(server);
 
 // config
-const PORT = 3000;
+const PORT_NUMBER = 3000;
 const IP = '0.0.0.0';
 
 // send index.html to web browser on GET request and use 
@@ -22,22 +22,21 @@ app.get('/', function(req, res) {
 var players = {};
 // listen for the connection event
 io.on('connection', function(socket) {
-	console.log("a user connected");
+	console.log("User " + socket.id + " connected");
 
 	socket.on('chat message', function(message) {
+		message = socket.id + ": " + message;
 		console.log(message);
 		io.emit('chat message', message);
 	});
-	
-	socket.on('disconnect', function() {
-		console.log("user disconnected");
-	});	
 
 	socket.on('new player', function() {
     players[socket.id] = {
       x: 300,
-      y: 300
-    };
+			y: 300,
+			// this magic property generates a random color hex value
+			color: '#'+Math.floor(Math.random()*16777215).toString(16)
+		};
 	});
 	
   socket.on('movement', function(data) {
@@ -55,13 +54,17 @@ io.on('connection', function(socket) {
       player.y += 5;
     }
 	});
+
+	socket.on('disconnect', function() {
+		delete players[socket.id]; // **TODO** look into alternative for removing key/value from hash
+		console.log("User " + socket.id + " disconnected");
+	});	
 });
 
 setInterval(function() {
 	io.sockets.emit('state', players);
-	console.log("wtf");
 }, 1000 / 60);
 
-server.listen(PORT, function() {
-	console.log("Starting server on port " + PORT + ".");
+server.listen(PORT_NUMBER, function() {
+	console.log("Starting server on port " + PORT_NUMBER + ".");
 });
