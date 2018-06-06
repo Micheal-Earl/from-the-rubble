@@ -9,7 +9,7 @@ var server    = http.Server(app);
 var io        = socketIO(server);
 
 // config
-const PORT_NUMBER = 3000;
+const PORT_NUMBER = 80;
 const IP = '0.0.0.0';
 
 // send index.html to web browser on GET request and use 
