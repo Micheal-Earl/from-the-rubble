@@ -19,11 +19,11 @@ class Map {
     for(let y = 0; y < this.height; y++) {
       for(let x = 0; x < this.width; x++) {
         let rand = Math.floor(Math.random()*100);
-        if(rand < 25) {
+        if(rand < 60) {
           this.map[y][x].tileSprite = "grass1";
-        } else if(rand < 50) {
+        } else if(rand < 85) {
           this.map[y][x].tileSprite = "grass2";
-        } else if(rand < 75) {
+        } else if(rand < 95) {
           this.map[y][x].tileSprite = "grass3";
         } else {
           this.map[y][x].tileSprite = "grass4";

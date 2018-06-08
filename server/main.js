@@ -13,7 +13,7 @@ const Map       = require('./Map.js');
 // config
 const PORT_NUMBER = 80;
 const IP = '0.0.0.0';
-var map = new Map(40, 50);
+var map = new Map(50, 40);
 map.generateSprites();
 map.visualizeMap();
 

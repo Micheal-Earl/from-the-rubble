@@ -38,7 +38,21 @@ function setup() {
 
   socket.emit('client ready');
 
-
+  socket.on('map', function(map) {
+    console.log(map);
+    console.log("map loaded!");
+    for(let y = 0; y < map.map.length; y++) {
+      for(let x = 0; x < map.map[y].length; x++) {
+        var pixelX = x * 16;
+        var pixelY = y * 16;
+        let sprite = new PIXI.Sprite(
+          PIXI.loader.resources["assets/" + map.map[y][x].tileSprite + ".png"].texture
+        );
+        app.stage.addChild(sprite);
+        sprite.position.set(pixelX, pixelY);
+      }
+    }
+  });
 
   // use pixi.js ticker to make game loop?
   app.ticker.add(delta => gameLoop(delta));
@@ -115,22 +129,5 @@ socket.on('state', function(players) {
     //context.beginPath();
     //context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
     //context.fill();
-  }
-});
-
-let map;
-socket.on('map', function(map) {
-  console.log(map);
-  console.log("map loaded!");
-  console.log(map[0].tileName);
-  for(let y = 0; y < map.length; y++) {
-    console.log("am I working?");
-    for(let x = 0; x < map[y].length; x++) {
-      var pixelX = x * 16;
-      var pixelY = y * 16;
-      let grass1_ss = grass1_s;
-      app.stage.addChild(grass1_ss);
-      grass1_ss.position.set(pixelX, pixelY);
-    }
   }
 });
