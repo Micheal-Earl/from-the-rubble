@@ -1,16 +1,21 @@
-var path      = require('path');
+const path      = require('path');
 
-var express   = require('express');
-var http      = require('http');
-var socketIO  = require('socket.io');
+const express   = require('express');
+const http      = require('http');
+const socketIO  = require('socket.io');
 
-var app       = express();
-var server    = http.Server(app);
-var io        = socketIO(server);
+const app       = express();
+const server    = http.Server(app);
+const io        = socketIO(server);
+
+const Map       = require('./Map.js');
 
 // config
 const PORT_NUMBER = 80;
 const IP = '0.0.0.0';
+var map = new Map(40, 50);
+map.generateSprites();
+map.visualizeMap();
 
 // send index.html to web browser on GET request and use 
 // /../client for static files like style.css and script.js
@@ -24,6 +29,10 @@ var players = {};
 io.on('connection', function(socket) {
 	console.log("User " + socket.id + " connected");
 
+	socket.on('client ready', function() {
+		io.sockets.emit('map', map);
+	});
+
 	socket.on('chat message', function(message) {
 		message = socket.id + ": " + message;
 		console.log(message);
@@ -33,9 +42,7 @@ io.on('connection', function(socket) {
 	socket.on('new player', function() {
     players[socket.id] = {
       x: 300,
-			y: 300,
-			// this magic property generates a random color hex value
-			color: '#'+Math.floor(Math.random()*16777215).toString(16)
+			y: 300
 		};
 	});
 	
@@ -61,6 +68,8 @@ io.on('connection', function(socket) {
 	});	
 });
 
+
+// update loop currently 60/s
 setInterval(function() {
 	io.sockets.emit('state', players);
 }, 1000 / 60);

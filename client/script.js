@@ -1,74 +1,136 @@
-// **TODO** get rid of ugly jquery and use pure JS
-$(function() {
-  var socket = io();
-  $('form').submit(function() {
-    socket.emit('chat message', $('#m').val());
-    $('#m').val('');
-    return false;
-  });
-  socket.on('chat message', function(message) {
-    $('#messages').append($('<li>').text(message));	
-  });
+const socket = io(); // client side socket.io lib
 
-  var movement = {
-    up: false,
-    down: false,
-    left: false,
-    right: false
+// check browsers pixi.js compatibility
+let type = "WebGL"
+if(!PIXI.utils.isWebGLSupported()){
+  type = "canvas"
+}
+// print to console to confirm pixi.js is working
+PIXI.utils.sayHello(type)
+
+// define new pixi.js renderer and append it to the div with game id
+let app = new PIXI.Application({width: 800, height: 640});
+document.getElementById('game').appendChild(app.view);
+
+const graphics = new PIXI.Graphics();
+
+PIXI.loader
+  .add([
+    "assets/grass1.png",
+    "assets/grass2.png",
+    "assets/grass3.png",
+    "assets/grass4.png"
+  ])
+  .load(setup);
+
+// initialize sprites
+let grass1_s;
+let grass2_s;
+let grass3_s;
+let grass4_s;
+
+function setup() {
+  // set up sprites
+  grass1_s = new PIXI.Sprite(PIXI.loader.resources["assets/grass1.png"].texture);
+  grass2_s = new PIXI.Sprite(PIXI.loader.resources["assets/grass2.png"].texture);
+  grass3_s = new PIXI.Sprite(PIXI.loader.resources["assets/grass3.png"].texture);
+  grass4_s = new PIXI.Sprite(PIXI.loader.resources["assets/grass4.png"].texture);
+
+  socket.emit('client ready');
+
+
+
+  // use pixi.js ticker to make game loop?
+  app.ticker.add(delta => gameLoop(delta));
+}
+
+// runs once per frame, idk
+function gameLoop(delta) {
+  // do stuff
+}
+
+// CHAT SYSTEM
+$('form').submit(function() {
+  socket.emit('chat message', $('#m').val());
+  $('#m').val('');
+  return false;
+});
+socket.on('chat message', function(message) {
+  $('#messages').append($('<li>').text(message));	
+});
+// CHAT SYSTEM END
+
+var movement = {
+  up: false,
+  down: false,
+  left: false,
+  right: false
+}
+
+document.addEventListener('keydown', function(event) {
+  switch (event.keyCode) {
+    case 65: // A
+      movement.left = true;
+      break;
+    case 87: // W
+      movement.up = true;
+      break;
+    case 68: // D
+      movement.right = true;
+      break;
+    case 83: // S
+      movement.down = true;
+      break;
   }
-  
-  document.addEventListener('keydown', function(event) {
-    switch (event.keyCode) {
-      case 65: // A
-        movement.left = true;
-        break;
-      case 87: // W
-        movement.up = true;
-        break;
-      case 68: // D
-        movement.right = true;
-        break;
-      case 83: // S
-        movement.down = true;
-        break;
+});
+
+document.addEventListener('keyup', function(event) {
+  switch (event.keyCode) {
+    case 65: // A
+      movement.left = false;
+      break;
+    case 87: // W
+      movement.up = false;
+      break;
+    case 68: // D
+      movement.right = false;
+      break;
+    case 83: // S
+      movement.down = false;
+      break;
+  }
+});
+
+socket.emit('new player');
+setInterval(function() {
+  socket.emit('movement', movement);
+}, 1000 / 60);
+
+socket.on('state', function(players) {
+  for (var id in players) {
+    var player = players[id];
+    graphics.beginFill(0xe74c3c);
+    graphics.drawCircle(player.x, player.y, 10);
+    graphics.endFill();
+    //context.beginPath();
+    //context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
+    //context.fill();
+  }
+});
+
+let map;
+socket.on('map', function(map) {
+  console.log(map);
+  console.log("map loaded!");
+  console.log(map[0].tileName);
+  for(let y = 0; y < map.length; y++) {
+    console.log("am I working?");
+    for(let x = 0; x < map[y].length; x++) {
+      var pixelX = x * 16;
+      var pixelY = y * 16;
+      let grass1_ss = grass1_s;
+      app.stage.addChild(grass1_ss);
+      grass1_ss.position.set(pixelX, pixelY);
     }
-  });
-  
-  document.addEventListener('keyup', function(event) {
-    switch (event.keyCode) {
-      case 65: // A
-        movement.left = false;
-        break;
-      case 87: // W
-        movement.up = false;
-        break;
-      case 68: // D
-        movement.right = false;
-        break;
-      case 83: // S
-        movement.down = false;
-        break;
-    }
-  });
-  
-  socket.emit('new player');
-  setInterval(function() {
-    socket.emit('movement', movement);
-  }, 1000 / 60);
-  
-  var canvas = document.getElementById('canvas');
-  canvas.width = 800;
-  canvas.height = 600;
-  var context = canvas.getContext('2d');
-  socket.on('state', function(players) {
-    context.clearRect(0, 0, 800, 600);
-    for (var id in players) {
-      var player = players[id];
-      context.fillStyle = player.color;
-      console.log(player.color);
-      context.beginPath();
-      context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
-      context.fill();
-    }
-  });
+  }
 });
