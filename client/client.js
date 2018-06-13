@@ -71,6 +71,12 @@ PIXI.utils.sayHello(type)
 let app = new PIXI.Application({width: 800, height: 640});
 document.getElementById('game').appendChild(app.view);
 
+// make the game render in the entire browser window and auto re-size
+app.renderer.view.style.position = "absolute";
+app.renderer.view.style.display = "block";
+app.renderer.autoResize = true;
+app.renderer.resize(window.innerWidth, window.innerHeight);
+
 const graphics = new PIXI.Graphics();
 
 PIXI.loader
@@ -88,15 +94,12 @@ let grass2_s;
 let grass3_s;
 let grass4_s;
 
-let pSprite;
-
 function setup() {
   // set up sprites
   grass1_s = new PIXI.Sprite(PIXI.loader.resources["assets/grass1.png"].texture);
   grass2_s = new PIXI.Sprite(PIXI.loader.resources["assets/grass2.png"].texture);
   grass3_s = new PIXI.Sprite(PIXI.loader.resources["assets/grass3.png"].texture);
   grass4_s = new PIXI.Sprite(PIXI.loader.resources["assets/grass4.png"].texture);
-  pSprite  = new PIXI.Sprite(PIXI.loader.resources["assets/grass1.png"].texture);
 
   socket.emit('client ready');
 
