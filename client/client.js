@@ -68,14 +68,16 @@ if(!PIXI.utils.isWebGLSupported()){
 PIXI.utils.sayHello(type)
 
 // define new pixi.js renderer and append it to the div with game id
-let app = new PIXI.Application({width: 800, height: 640});
+// magic number 100 is height/width of tilemap, magic number 16 is height/width of each tile
+// doing this for now because I do not know how to make the view pan with click and drag
+let app = new PIXI.Application({width: 100 * 16, height: 100 * 16});
 document.getElementById('game').appendChild(app.view);
 
 // make the game render in the entire browser window and auto re-size
-app.renderer.view.style.position = "absolute";
-app.renderer.view.style.display = "block";
-app.renderer.autoResize = true;
-app.renderer.resize(window.innerWidth, window.innerHeight);
+//app.renderer.view.style.position = "absolute";
+//app.renderer.view.style.display = "block";
+//app.renderer.autoResize = true;
+//app.renderer.resize(window.innerWidth, window.innerHeight);
 
 const graphics = new PIXI.Graphics();
 
