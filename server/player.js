@@ -6,21 +6,21 @@ class Player {
 
     // have to write some sort of structure to store city info
     this.cities = {
-      city1 = {
+      city1: {
         name: "",
         built: false,
         posX: NaN,
         posY: NaN,
         upgrades: 0
       },
-      city2 = {
+      city2: {
         name: "",
         built: false,
         posX: NaN,
         posY: NaN,
         upgrades: 0
       },
-      city3 = {
+      city3: {
         name: "",
         built: false,
         posX: NaN,
