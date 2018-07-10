@@ -61,7 +61,6 @@ io.on('connection', function(socket) {
 	});	
 });
 
-
 // update loop currently 60/s this is way too much lol
 setInterval(function() {
 	io.sockets.emit('state', players);

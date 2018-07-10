@@ -1,5 +1,5 @@
-Current goal for MVP:
-<br>
+Current goal for MVP:  
+  
 Players start with 100 wood.  
 Players gain ((5 * amountOfControlledCities) + amountOfCityUpgrades) wood every 10 seconds.  
 Players may build a city for 100 wood, or upgrade a city for 100 wood.  
