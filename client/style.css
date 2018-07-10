@@ -8,43 +8,56 @@ body {
   font: 13px Helvetica, Arial; 
 }
 
-div .game {
-  margin: 10px;
+#game {
+  
+}
+
+#chat {
+  font-size: 12px;
+  font-weight: 800;
+  color: white;
+  font-family: Helvetica, Arial, sans-serif
 }
 
 form { 
-  background: #000; 
   padding: 4px; 
   position: fixed; 
   bottom: 0; 
-  width: 800px; 
+  padding: 5px;
+  background: rgb(26, 26, 26); 
+  width: 600px; 
 }
 
 form input { 
   border: 0; 
-  padding: 10px; 
   width: 90%; 
+  padding: 5px;
+  background: rgb(26, 26, 26); 
+  color: white;
   margin-right: .5%; 
 }
 
 form button { 
   width: 9%; 
-  background: rgb(130, 224, 255); 
-  border: none; 
-  padding: 10px; 
+  padding: 5px;
+  background: white; 
+  border: none;  
 }
 
 #messages { 
   list-style-type: none; 
   margin: 0; 
   padding: 0; 
-  width: 800px;
+  position: fixed;
+  bottom: 35px;
+  width: 600px;
 }
 
 #messages li { 
   padding: 5px 10px; 
+  background: rgb(26, 26, 26); 
 }
 
 #messages li:nth-child(odd) { 
-  background: #eee; 
+  background: rgb(5, 5, 5); 
 }
