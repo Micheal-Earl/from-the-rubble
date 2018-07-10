@@ -17,9 +17,9 @@ const Player    = require('./Player.js');
 // config
 const PORT_NUMBER = 80;
 const IP = '0.0.0.0';
-var map = new Map(100, 100);
+var map = new Map(150, 150);
 map.generateSprites();
-map.visualizeMap();
+//map.visualizeMap(); // this is a debug method
 
 // send index.html to web browser on GET request and use 
 // /../client for static files like style.css and script.js
@@ -49,16 +49,13 @@ io.on('connection', function(socket) {
 	// currently keeping track of players by their socket ID, 
 	// need to write auth service and keep player info in DB
 	socket.on('new player', function() {
-    players[socket.id] = {
-      x: 300,
-			y: 300
-		};
+    players[socket.id] = new Player(socket.id);
 	});
 
 	socket.on('disconnect', function() {
 		delete players[socket.id]; // **TODO** look into alternative for removing key/value from hash
 		console.log("User " + socket.id + " disconnected");
-	});	
+	});
 });
 
 // update loop currently 60/s this is way too much lol

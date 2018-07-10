@@ -1,8 +1,11 @@
 class Player {
   constructor(id) {
-    //this.name = name;
+    this.name = id;
     this.id = id;
     this.wood = 100;
+    this.totalCities = 0;
+    this.totalUpgrades = 0;
+    this.woodPerTick = (this.totalCities * 5) + this.totalUpgrades;
 
     // have to write some sort of structure to store city info
     this.cities = {
@@ -28,6 +31,10 @@ class Player {
         upgrades: 0
       }
     }
+  }
+
+  changePlayerName(newName) {
+    this.name = newName;
   }
 }
 

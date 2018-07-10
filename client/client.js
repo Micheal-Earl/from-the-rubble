@@ -11,53 +11,47 @@ socket.on('chat message', function(message) {
 });
 // CHAT SYSTEM END
 
-// GET MOVEMENT SHIT
-var movement = {
-  up: false,
-  down: false,
-  left: false,
-  right: false
+// get the players intent for the next tick
+var intent = {
+  constructCity: {
+    flag: false,
+    posX: NaN,
+    posY: NaN
+  },
+  upgradeCity: {
+    flag: false,
+    posX: NaN,
+    posY: NaN
+  },
+  makeTroops: {
+    flag: false,
+    amount: NaN,
+    posX: NaN,
+    posY: NaN
+  },
+  sendTroops: {
+    flag: false,
+    posX: NaN,
+    posY: NaN
+  }
 }
 
-document.addEventListener('keydown', function(event) {
-  switch (event.keyCode) {
-    case 65: // A
-      movement.left = true;
-      break;
-    case 87: // W
-      movement.up = true;
-      break;
-    case 68: // D
-      movement.right = true;
-      break;
-    case 83: // S
-      movement.down = true;
-      break;
-  }
+// **TODO** need to add context menu on click with options
+document.addEventListener('click', function(event) {
+  //console.log(event);
+  console.log("Client click info")
+  console.log(Math.floor(event.clientX/16))
+  console.log(Math.floor(event.clientY/16))
 });
 
-document.addEventListener('keyup', function(event) {
-  switch (event.keyCode) {
-    case 65: // A
-      movement.left = false;
-      break;
-    case 87: // W
-      movement.up = false;
-      break;
-    case 68: // D
-      movement.right = false;
-      break;
-    case 83: // S
-      movement.down = false;
-      break;
-  }
-});
-
+// emit that we have a new player starting the client
 socket.emit('new player');
+
+// emit player intent every second, maybe change this so intent
+// is only emitted when the player wants to do something
 setInterval(function() {
-  socket.emit('movement', movement);
-}, 1000 / 60);
-// END GET MOVEMENT SHIT
+  socket.emit('intent', intent);
+}, 1000);
 
 // check browsers pixi.js compatibility
 let type = "WebGL"
@@ -74,10 +68,10 @@ let app = new PIXI.Application({width: 100 * 16, height: 100 * 16});
 document.getElementById('game').appendChild(app.view);
 
 // make the game render in the entire browser window and auto re-size
-//app.renderer.view.style.position = "absolute";
-//app.renderer.view.style.display = "block";
-//app.renderer.autoResize = true;
-//app.renderer.resize(window.innerWidth, window.innerHeight);
+app.renderer.view.style.position = "absolute";
+app.renderer.view.style.display = "block";
+app.renderer.autoResize = true;
+app.renderer.resize(window.innerWidth, window.innerHeight);
 
 const graphics = new PIXI.Graphics();
 

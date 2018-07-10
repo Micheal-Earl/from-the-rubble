@@ -7,7 +7,7 @@ class Map {
 	    this.map[y] = [];
       for(let x = 0; x < this.width; x++) {
         this.map[y][x] = {
-          tileName: "1",
+          tileName: "empty",
           tileSprite: "grass1",
           tileEntities: {}
         }
