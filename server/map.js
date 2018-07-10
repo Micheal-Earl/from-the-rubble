@@ -30,6 +30,8 @@ class Map {
         }
       }
     }
+
+    //this.map[0][0].tileSprite = "city";
   }
 
   visualizeMap() {
@@ -41,6 +43,10 @@ class Map {
       console.log(mapVisualization);
       mapVisualization = "";
     }
+  }
+
+  manipulateMap(x, y, func) {
+    func(x, y);
   }
 }
 

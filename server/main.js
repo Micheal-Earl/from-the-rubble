@@ -52,16 +52,27 @@ io.on('connection', function(socket) {
     players[socket.id] = new Player(socket.id);
 	});
 
+	socket.on('intent', function(intent) {
+		cityX = intent.constructCity.posX;
+		cityY = intent.constructCity.posY;
+		console.log(intent.constructCity.posX);
+		console.log(intent.constructCity.posY);
+		map.map[cityY][cityX].tileSprite = "city";
+		//console.log(map.map[cityX][cityY]);
+		console.log(intent.constructCity.flag);
+	});
+
 	socket.on('disconnect', function() {
 		delete players[socket.id]; // **TODO** look into alternative for removing key/value from hash
 		console.log("User " + socket.id + " disconnected");
 	});
 });
 
-// update loop currently 60/s this is way too much lol
+// update loop currently one per second
 setInterval(function() {
-	io.sockets.emit('state', players);
-}, 1000 / 60);
+	// io.sockets.emit('state', players);
+	io.sockets.emit('map', map);
+}, 1000);
 
 server.listen(PORT_NUMBER, function() {
 	console.log("Starting server on port " + PORT_NUMBER + ".");
