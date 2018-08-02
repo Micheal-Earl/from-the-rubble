@@ -11,8 +11,8 @@ const server    = http.Server(app);
 const io        = socketIO(server);
 
 // my objects
-const Map       = require('./Map.js');
-const Player    = require('./Player.js');
+const Map       = require('./map.js');
+const Player    = require('./player.js');
 
 // config
 const PORT_NUMBER = 80;
