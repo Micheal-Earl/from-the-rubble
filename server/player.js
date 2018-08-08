@@ -33,6 +33,10 @@ class Player {
     }
   }
 
+  tick() {
+    this.wood += this.woodPerTick
+  }
+
   changePlayerName(newName) {
     this.name = newName;
   }

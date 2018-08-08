@@ -8,10 +8,12 @@ body {
   font: 13px Helvetica, Arial; 
 }
 
-#game {
-  
+#game_info {
+  float: left;
 }
 
+
+/* chat css */
 #chat {
   font-size: 12px;
   font-weight: 800;
@@ -19,7 +21,7 @@ body {
   font-family: Helvetica, Arial, sans-serif
 }
 
-form { 
+#chat form { 
   padding: 4px; 
   position: fixed; 
   bottom: 0; 
@@ -28,7 +30,7 @@ form {
   width: 600px; 
 }
 
-form input { 
+#chat form input { 
   border: 0; 
   width: 90%; 
   padding: 5px;
@@ -37,14 +39,14 @@ form input {
   margin-right: .5%; 
 }
 
-form button { 
+#chat form button { 
   width: 9%; 
   padding: 5px;
   background: white; 
   border: none;  
 }
 
-#messages { 
+#chat #messages { 
   list-style-type: none; 
   margin: 0; 
   padding: 0; 
@@ -53,11 +55,11 @@ form button {
   width: 600px;
 }
 
-#messages li { 
+#chat #messages li { 
   padding: 5px 10px; 
   background: rgb(26, 26, 26); 
 }
 
-#messages li:nth-child(odd) { 
+#chat #messages li:nth-child(odd) { 
   background: rgb(5, 5, 5); 
 }

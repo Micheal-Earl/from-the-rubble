@@ -72,6 +72,9 @@ io.on('connection', function(socket) {
 setInterval(function() {
 	// io.sockets.emit('state', players);
 	io.sockets.emit('map', map);
+	for(player in players) {
+		players.tick();
+	}
 }, 1000);
 
 server.listen(PORT_NUMBER, function() {

@@ -89,6 +89,8 @@ setInterval(function() {
 }, 1000);
 */
 
+
+/*
 // check browsers pixi.js compatibility
 let type = "WebGL"
 if(!PIXI.utils.isWebGLSupported()){
@@ -145,7 +147,17 @@ function setup() {
 
 // runs once per frame, idk
 function gameLoop(delta) {
-
+  for(let y = 0; y < map.length; y++) {
+    for(let x = 0; x < map[y].length; x++) {
+      var pixelX = x * TILE_SIZE;
+      var pixelY = y * TILE_SIZE;
+      let sprite = new PIXI.Sprite(
+        PIXI.loader.resources["assets/" + map[y][x].tileSprite + ".png"].texture
+      );
+      app.stage.addChild(sprite);
+      sprite.position.set(pixelX, pixelY);
+    }
+  }
 }
 
 socket.on('map', function(map) {
@@ -163,3 +175,4 @@ socket.on('map', function(map) {
     }
   }
 });
+*/
